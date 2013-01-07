@@ -25,12 +25,12 @@ Your build machine must also be completely/properly set up to support building A
 You can also configure your node to only perform builds during certain hours. This will prevent your machine from being swamped when during the hours you are planning on using it.  
 
 The login provided should use allow access to the following public key via the authorized_keys file:  
-https://github.com/erikcas/hudson/blob/master/authorized_keys  
+https://github.com/androidarmv6/hudson/blob/master/authorized_keys  
 
 # Jenkins Job Setup
 The job uses the following script:
 
 ```bash
-curl -O https://raw.github.com/erikcas/hudson/master/job.sh
+curl -O https://raw.github.com/androidarmv6/hudson/master/job.sh
 . ./job.sh
 ```
