@@ -25,5 +25,5 @@ export prevts=$ts
 done
 
 if [ -z "$prevts" ]; then
-  echo "This is the first CyanogenMod build of this type for device $CM_BUILD" >> $CHANGESPATH
+  echo "This is the first androidarmv6 build of this type for device $CM_BUILD" >> $CHANGESPATH
 fi

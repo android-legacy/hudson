@@ -79,7 +79,7 @@ then
 fi
 
 git config --global user.name $(whoami)@$NODE_NAME
-git config --global user.email jenkins@cyanogenmod.com
+git config --global user.email jenkins@androidarmv6.org
 
 if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cm-10" ]]; then 
    JENKINS_BUILD_DIR=jellybean
@@ -97,7 +97,7 @@ then
   CORE_BRANCH=$REPO_BRANCH
 fi
 rm -rf .repo/manifests*
-repo init -u $SYNC_PROTO://github.com/CyanogenMod/android.git -b $CORE_BRANCH
+repo init -u $SYNC_PROTO://github.com/erikcas/android.git -b $CORE_BRANCH
 check_result "repo init failed."
 
 # make sure ccache is in PATH
@@ -115,7 +115,7 @@ then
   . ~/.jenkins_profile
 fi
 
-cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifest.xml
+#cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifest.xml
 
 echo Core Manifest:
 cat .repo/manifests/default.xml

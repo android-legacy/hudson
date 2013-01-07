@@ -75,14 +75,14 @@ then
 fi
 
 git config --global user.name $(whoami)@$NODE_NAME
-git config --global user.email jenkins@cyanogenmod.com
+git config --global user.email jenkins@androidarmv6.org
 
 mkdir -p $REPO_BRANCH
 cd $REPO_BRANCH
 
 rm -rf .repo/manifests*
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/CyanogenMod/android.git -b $REPO_BRANCH
+repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $REPO_BRANCH
 check_result "repo init failed."
 
 cp $WORKSPACE/hudson/recovery.xml .repo/local_manifest.xml
@@ -218,7 +218,7 @@ check_result "Build failed."
 if [ -z "$NO_UPLOAD" ]
 then
   pushd ROMManagerManifest
-  git commit -a -m "builder: $DEVICE updated on behalf of $INITIATING_OWNER $BUILD_NO: http://jenkins.cyanogenmod.com/job/recovery/$BUILD_NO"
+  git commit -a -m "builder: $DEVICE updated on behalf of $INITIATING_OWNER $BUILD_NO: http://jenkins.androidarmv6.org/job/recovery/$BUILD_NO"
   git push private HEAD:gh-pages
   popd
 fi
