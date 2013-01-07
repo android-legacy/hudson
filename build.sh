@@ -97,7 +97,7 @@ then
   CORE_BRANCH=$REPO_BRANCH
 fi
 rm -rf .repo/manifests*
-repo init -u $SYNC_PROTO://github.com/erikcas/android.git -b $CORE_BRANCH
+repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH
 check_result "repo init failed."
 
 # make sure ccache is in PATH
