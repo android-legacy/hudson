@@ -1,11 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-  <project path="device/samsung/msm7x27-common" name="androidarmv6/android_device_samsung_msm7x27-common" />
-  <project path="kernel/samsung/msm7x27" name="androidarmv6/android_kernel_samsung_msm7x27" />
-  <project path="vendor/samsung" name="androidarmv6/android_vendor_samsung" />
-  <project path="device/lge/msm7x27-common" name="androidarmv6/android_device_lge_msm7x27-common" />
-  <project path="kernel/lge/msm7x27" name="androidarmv6/android_kernel_lge_msm7x27" />
-  <project path="vendor/lge" name="androidarmv6/android_vendor_lge" />
-  <project path="device/qcom/msm7x27" name="androidarmv6/android_device_qcom_msm7x27" />
-  <project path="vendor/qcom/msm7x27" name="androidarmv6/android_vendor_qcom_msm7x27" />
 </manifest>
