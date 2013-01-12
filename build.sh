@@ -222,7 +222,7 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH" > .last_branch
 
-time mka bacon recoveryzip recoveryimage checkapi
+time mka bacon recoveryzip recoveryimage #checkapi
 check_result "Build failed."
 
 for f in $(ls $OUT/cm-*.zip*)
