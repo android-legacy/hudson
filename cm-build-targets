@@ -1,0 +1,51 @@
+# CM build target list
+# <lunchcombo> <branch> [period: "D"aily, "W"eekly or "M"onthly]
+# Absence of a period indicates Daily (the default)
+#########################
+cm_blade2-userdebug cm-10.1
+cm_cooper-userdebug cm-10.1
+cm_e510-userdebug cm-10.1
+cm_gio-userdebug cm-10.1
+cm_p350-userdebug cm-10.1
+cm_p500-userdebug cm-10.1
+cm_p505-userdebug cm-10.1
+cm_p506-userdebug cm-10.1
+cm_skate-userdebug cm-10.1
+cm_u8150-userdebug cm-10.1
+cm_robyn-userdebug cm-10.1
+cm_mimmi-userdebug cm-10.1
+cm_shakira-userdebug cm-10.1
+cm_fit-userdebug cm-10.1
+cm_tass-userdebug cm-10.1
+#########################
+cm_blade2-userdebug jellybean
+cm_cooper-userdebug jellybean
+cm_e510-userdebug jellybean
+cm_gio-userdebug jellybean
+cm_p350-userdebug jellybean
+cm_p500-userdebug jellybean
+cm_p505-userdebug jellybean
+cm_p506-userdebug jellybean
+cm_skate-userdebug jellybean
+cm_u8150-userdebug jellybean
+cm_robyn-userdebug jellybean
+cm_mimmi-userdebug jellybean
+cm_shakira-userdebug jellybean
+cm_fit-userdebug jellybean
+cm_tass-userdebug jellybean
+#########################
+cm_blade2-userdebug ics
+cm_cooper-userdebug ics
+cm_e510-userdebug ics
+cm_gio-userdebug ics
+cm_p350-userdebug ics
+cm_p500-userdebug ics
+cm_p505-userdebug ics
+cm_p506-userdebug ics
+cm_skate-userdebug ics
+cm_u8150-userdebug ics
+cm_robyn-userdebug ics
+cm_mimmi-userdebug ics
+cm_shakira-userdebug ics
+cm_fit-userdebug ics
+cm_tass-userdebug ics

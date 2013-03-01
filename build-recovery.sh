@@ -81,14 +81,16 @@ mkdir -p $REPO_BRANCH
 cd $REPO_BRANCH
 
 rm -rf .repo/manifests*
+rm -rf .repo/local_manifests/
 rm -f .repo/local_manifest.xml
 repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $REPO_BRANCH
 check_result "repo init failed."
 
-cp $WORKSPACE/hudson/recovery.xml .repo/local_manifest.xml
+mkdir -p .repo/local_manifests
+cp $WORKSPACE/hudson/recovery.xml .repo/local_manifests/
 
 echo Manifest:
-cat .repo/manifests/default.xml
+cat .repo/manifest.xml
 
 echo Syncing...
 # clear all devices from previous builds.

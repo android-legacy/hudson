@@ -3,6 +3,9 @@
 function check_result {
   if [ "0" -ne "$?" ]
   then
+    (repo forall -c "git reset --hard") >/dev/null
+    rm -f .repo/local_manifests/dyn-*.xml
+    rm -f .repo/local_manifests/roomservice.xml
     echo $1
     exit 1
   fi
@@ -96,8 +99,18 @@ if [ -z "$CORE_BRANCH" ]
 then
   CORE_BRANCH=$REPO_BRANCH
 fi
+
+if [ ! -z "$RELEASE_MANIFEST" ]
+then
+  MANIFEST="-m $RELEASE_MANIFEST"
+else
+  RELEASE_MANIFEST=""
+  MANIFEST=""
+fi
+
 rm -rf .repo/manifests*
-repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH
+rm -f .repo/local_manifests/dyn-*.xml
+repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 
 # make sure ccache is in PATH
@@ -115,13 +128,20 @@ then
   . ~/.jenkins_profile
 fi
 
-#cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifest.xml
+mkdir -p .repo/local_manifests
+rm -f .repo/local_manifest.xml
+
+cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifests/dyn-$REPO_BRANCH.xml
 
 echo Core Manifest:
-cat .repo/manifests/default.xml
+cat .repo/manifest.xml
 
 echo Local Manifest:
-cat .repo/local_manifest.xml
+cat .repo/local_manifests/dyn-$REPO_BRANCH.xml
+
+## TEMPORARY: Some kernels are building _into_ the source tree and messing
+## up posterior syncs due to changes
+rm -rf kernel/*
 
 echo Syncing...
 repo sync -d -c -f -j64
@@ -138,10 +158,10 @@ then
   LAST_BRANCH=$(cat .last_branch)
 else
   echo "Last build branch is unknown, assume clean build"
-  LAST_BRANCH=$REPO_BRANCH-$CORE_BRANCH
+  LAST_BRANCH=$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST
 fi
 
-if [ "$LAST_BRANCH" != "$REPO_BRANCH-$CORE_BRANCH" ]
+if [ "$LAST_BRANCH" != "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" ]
 then
   echo "Branch has changed since the last build happened here. Forcing cleanup."
   CLEAN="true"
@@ -152,7 +172,18 @@ lunch $LUNCH
 check_result "lunch failed."
 
 # save manifest used for build (saving revisions as current HEAD)
+
+# include only the auto-generated locals
+TEMPSTASH=$(mktemp -d)
+mv .repo/local_manifests/* $TEMPSTASH
+mv $TEMPSTASH/roomservice.xml .repo/local_manifests/
+
+# save it
 repo manifest -o $WORKSPACE/archive/manifest.xml -r
+
+# restore all local manifests
+mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
+rmdir $TEMPSTASH
 
 rm -f $OUT/cm-*.zip*
 
@@ -194,6 +225,11 @@ then
     python $WORKSPACE/hudson/repopick.py $(curl $GERRIT_CHANGES)
     check_result "gerrit picks failed."
   fi
+  if [ ! -z "$GERRIT_XLATION_LINT" ]
+  then
+    python $WORKSPACE/hudson/xlationlint.py $GERRIT_CHANGES
+    check_result "basic XML lint failed."
+  fi
 fi
 
 if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "100.0" ]
@@ -220,7 +256,7 @@ else
   echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
 fi
 
-echo "$REPO_BRANCH-$CORE_BRANCH" > .last_branch
+echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 time mka bacon recoveryzip recoveryimage #checkapi
 check_result "Build failed."
@@ -243,8 +279,17 @@ ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
-rm -f .repo/local_manifest.xml
+rm -f .repo/local_manifests/dyn-$REPO_BRANCH.xml
+rm -f .repo/local_manifests/roomservice.xml
+
+# Stash away other possible manifests
+TEMPSTASH=$(mktemp -d)
+mv .repo/local_manifests $TEMPSTASH
+
 repo manifest -o $WORKSPACE/archive/core.xml -r
+
+mv $TEMPSTASH/local_manifests .repo
+rmdir $TEMPSTASH
 
 # chmod the files in case UMASK blocks permissions
 chmod -R ugo+r $WORKSPACE/archive

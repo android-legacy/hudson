@@ -1,15 +1,1 @@
-cm_blade2-userdebug cm-10.1
-cm_cooper-userdebug cm-10.1
-cm_e510-userdebug cm-10.1
-cm_gio-userdebug cm-10.1
-cm_p350-userdebug cm-10.1
-cm_p500-userdebug cm-10.1
-cm_p505-userdebug cm-10.1
-cm_p506-userdebug cm-10.1
-cm_skate-userdebug cm-10.1
-cm_u8150-userdebug cm-10.1
-cm_robyn-userdebug cm-10.1
-cm_mimmi-userdebug cm-10.1
-cm_shakira-userdebug cm-10.1
-cm_fit-userdebug cm-10.1
-cm_tass-userdebug cm-10.1
+# This file has been deprecated. See cm-build-targets
