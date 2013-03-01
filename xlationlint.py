@@ -6,13 +6,13 @@ import os
 
 for change in sys.argv[1:]:
     print change
-    f = urllib2.urlopen('http://review.cyanogenmod.com/query?q=change:%s' % change)
+    f = urllib2.urlopen('http://server.cas-online.nl:8181/query?q=change:%s' % change)
     d = f.read()
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
     data = json.loads(d)
     project = data['project']
-    project = project.replace('CyanogenMod/', '').replace('android_', '')
+    project = project.replace('androidarmv6/', '').replace('android_', '')
 
     while not os.path.isdir(project):
         new_project = project.replace('_', '/', 1)
