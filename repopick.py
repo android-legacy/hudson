@@ -6,7 +6,7 @@ import os
 
 for change in sys.argv[1:]:
     print change
-    f = urllib2.urlopen('http://review.cas-online.nl:8181/query?q=change:%s' % change)
+    f = urllib2.urlopen('http://review.androidarmv6.org/query?q=change:%s' % change)
     d = f.read()
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     print d
@@ -26,11 +26,11 @@ for change in sys.argv[1:]:
     patch_count = 0
     junk = number[len(number) - 2:]
 
-    while 0 != os.system('cd %s ; git fetch http://review.cas-online.nl:8181/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
+    while 0 != os.system('cd %s ; git fetch http://review.androidarmv6.org/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
         patch_count = patch_count + 1
 
-    while 0 == os.system('cd %s ; git fetch http://review.cas-online.nl:8181/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
+    while 0 == os.system('cd %s ; git fetch http://review.androidarmv6.org/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
         patch_count = patch_count + 1
 
-    os.system('cd %s ; git fetch http://review.cas-online.nl:8181/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count))
+    os.system('cd %s ; git fetch http://review.androidarmv6.org/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count))
     os.system('cd %s ; git merge FETCH_HEAD' % project)

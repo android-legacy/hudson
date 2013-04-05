@@ -265,7 +265,9 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
-time mka -j16 bacon recoveryzip recoveryimage #checkapi
+# envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
+# Don't add -jXX. mka adds it automatically...
+time mka bacon recoveryzip recoveryimage #checkapi
 check_result "Build failed."
 
 for f in $(ls $OUT/cm-*.zip*)

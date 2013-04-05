@@ -6,7 +6,7 @@ import os
 
 for change in sys.argv[1:]:
     print change
-    f = urllib2.urlopen('http://server.cas-online.nl:8181/query?q=change:%s' % change)
+    f = urllib2.urlopen('http://review.androidarmv6.org/query?q=change:%s' % change)
     d = f.read()
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
