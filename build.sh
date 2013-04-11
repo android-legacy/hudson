@@ -143,10 +143,6 @@ cat .repo/local_manifests/dyn-$REPO_BRANCH.xml
 ## up posterior syncs due to changes
 rm -rf kernel/*
 
-## TEMPORARY: Clean Frameworks-Base and Settings for new BlueZ
-rm -rf out/target/common/obj/APPS/Settings_intermediates/
-rm -fr out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/
-
 echo Syncing...
 repo sync -d -c -f -j64
 check_result "repo sync failed."
