@@ -234,10 +234,11 @@ then
   fi
 fi
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "100.0" ]
+if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "36.0" ]
 then
-  ccache -M 100G
+  ccache -M 36G
 fi
+ccache --show-stats
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH sh $WORKSPACE/hudson/changes/buildlog.sh 2>&1
 
@@ -252,7 +253,12 @@ TIME_SINCE_LAST_CLEAN=$(expr $TIME_SINCE_LAST_CLEAN / 60 / 60)
 if [ $TIME_SINCE_LAST_CLEAN -gt "24" -o $CLEAN = "true" ]
 then
   echo "Cleaning!"
-  rm -fr $CCACHE_DIR
+  # clean ccache dir for release builds
+  if [[ "$RELEASE_TYPE" == "CM_RELEASE" ]]
+  then
+    ccache --clear
+    rm -fr $CCACHE_DIR
+  fi
   touch .clean
   make clobber
 else
