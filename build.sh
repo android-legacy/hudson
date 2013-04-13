@@ -238,7 +238,10 @@ if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "36.0" ]
 then
   ccache -M 36G
 fi
+
+echo "============================================"
 ccache --show-stats
+echo "============================================"
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH sh $WORKSPACE/hudson/changes/buildlog.sh 2>&1
 
@@ -271,6 +274,12 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 # Don't add -jXX. mka adds it automatically...
 time mka bacon recoveryzip recoveryimage #checkapi
 check_result "Build failed."
+
+echo "============================================"
+ccache --version
+echo "============================================"
+ccache --show-stats
+echo "============================================"
 
 for f in $(ls $OUT/cm-*.zip*)
 do
