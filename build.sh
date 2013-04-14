@@ -234,9 +234,9 @@ then
   fi
 fi
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "36.0" ]
+if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "64.0" ]
 then
-  ccache -M 36G
+  ccache -M 64G
 fi
 
 echo "============================================"
