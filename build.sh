@@ -3,7 +3,7 @@
 function check_result {
   if [ "0" -ne "$?" ]
   then
-    (repo forall -c "git reset --hard") >/dev/null
+    (repo forall -c "git reset --hard; git clean -fd") >/dev/null
     rm -f .repo/local_manifests/dyn-*.xml
     rm -f .repo/local_manifests/roomservice.xml
     echo $1
@@ -144,7 +144,7 @@ cat .repo/local_manifests/dyn-$REPO_BRANCH.xml
 rm -rf kernel/*
 
 echo Syncing...
-repo sync -d -c -f -j64
+repo sync -d -c -f -j16
 check_result "repo sync failed."
 echo Sync complete.
 
