@@ -3,7 +3,7 @@
 function check_result {
   if [ "0" -ne "$?" ]
   then
-    (repo forall -c "git reset --hard; git clean -fd") >/dev/null
+    (repo forall -c "git reset --hard; git clean -fdx") >/dev/null
     rm -f .repo/local_manifests/dyn-*.xml
     rm -f .repo/local_manifests/roomservice.xml
     echo $1
