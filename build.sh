@@ -3,11 +3,20 @@
 function check_result {
   if [ "0" -ne "$?" ]
   then
+    local err_message=${1:-""}
+    local exit_die=${2:-"true"}
+    local rm_roomservice=${3:-"true"}
     (repo forall -c "git reset --hard; git clean -fdx") >/dev/null
     rm -f .repo/local_manifests/dyn-*.xml
-    rm -f .repo/local_manifests/roomservice.xml
-    echo $1
-    exit 1
+    if [ "$rm_roomservice" = "true" ]
+    then
+      rm -f .repo/local_manifests/roomservice.xml
+    fi
+    echo $err_message
+    if [ "$exit_die" = "true" ]
+    then
+      exit 1
+    fi
   fi
 }
 
@@ -144,8 +153,20 @@ cat .repo/local_manifests/dyn-$REPO_BRANCH.xml
 rm -rf kernel/*
 
 echo Syncing...
+# if sync fails:
+# clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
 repo sync -d -c -f -j16
-check_result "repo sync failed."
+check_result "repo sync failed.", false, false
+
+# sync again, delete roomservice.xml if sync fails
+repo sync -d -c -f -j4
+check_result "repo sync failed.", false, true
+
+# last sync, delete roomservice.xml and exit if sync fails
+repo sync -d -c -f -j4
+check_result "repo sync failed.", true, true
+
+# SUCCESS
 echo Sync complete.
 
 if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
