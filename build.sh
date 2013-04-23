@@ -115,6 +115,7 @@ fi
 
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
+rm -f .repo/local_manifest.xml
 repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 
@@ -144,10 +145,6 @@ cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifests/dyn-$REPO_BRANCH.xml
 
 echo Core Manifest:
 cat .repo/manifest.xml
-
-echo Local Manifest:
-cat .repo/local_manifests/dyn-$REPO_BRANCH.xml
-
 
 echo Syncing...
 # if sync fails:
@@ -208,6 +205,11 @@ rmdir $TEMPSTASH
 rm -f $OUT/cm-*.zip*
 
 UNAME=$(uname)
+
+if [ ! -z "$BUILD_USER_ID" ]
+then
+  export RELEASE_TYPE=CM_EXPERIMENTAL
+fi
 
 if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
 then

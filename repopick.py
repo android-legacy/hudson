@@ -3,6 +3,8 @@ import urllib
 import urllib2
 import json
 import os
+import subprocess
+import re
 
 for change in sys.argv[1:]:
     print change
@@ -13,18 +15,26 @@ for change in sys.argv[1:]:
     d = d.split('\n')[0]
     data = json.loads(d)
     project = data['project']
-    project = project.replace('androidarmv6/', '').replace('android_', '')
 
-    while not os.path.isdir(project):
-        new_project = project.replace('_', '/', 1)
-        if new_project == project:
+    plist = subprocess.Popen([os.environ['HOME']+"/bin/repo","list"], stdout=subprocess.PIPE)
+    while(True):
+        retcode = plist.poll()
+        pline = plist.stdout.readline().rstrip()
+        ppaths = re.split('\s*:\s*',pline)
+        if ppaths[1] == project:
+            project = ppaths[0]
             break
-        project = new_project
+        if(retcode is not None):
+            break
 
     print project
     number = data['number']
     patch_count = 0
     junk = number[len(number) - 2:]
+
+    if not os.path.isdir(project):
+        sys.stderr.write('no project directory: %s' % project)
+        sys.exit(1)
 
     while 0 != os.system('cd %s ; git fetch http://review.androidarmv6.org/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
         patch_count = patch_count + 1
