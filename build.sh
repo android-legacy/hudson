@@ -304,13 +304,13 @@ echo "============================================"
 # ClamAV virus scan
 if [ "$VIRUS_SCAN" = "true" ]
 then
-  clamdscan --infected --multiscan --fdpass $OUT
+  clamdscan --infected --multiscan --fdpass $OUT > $WORKSPACE/archive/virusreport.txt
   if [ $? -eq 1 ]
   then
     echo Virus FOUND. Removing $OUT...
     make clobber
     rm -fr $OUT
-    exit 1
+    exit 0
   fi
 fi
 
