@@ -301,6 +301,20 @@ echo "============================================"
 ccache --show-stats
 echo "============================================"
 
+# ClamAV virus scan
+if [ "$VIRUS_SCAN" = "true" ]
+then
+  clamdscan --infected --multiscan --fdpass $OUT
+  if [ $? -eq 1 ]
+  then
+    echo Virus FOUND. Removing $OUT...
+    make clobber
+    rm -fr $OUT
+    exit 1
+  fi
+fi
+
+# /archive
 for f in $(ls $OUT/cm-*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
