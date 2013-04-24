@@ -308,6 +308,7 @@ then
   clamdscan --infected --multiscan --fdpass $OUT > $WORKSPACE/archive/virusreport.txt
   if [ $? -eq 1 ]
   then
+    export VIRUS_FOUND=" (VIRUS_FOUND)"
     echo Virus FOUND. Removing $OUT...
     make clobber
     rm -fr $OUT
