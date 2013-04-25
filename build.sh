@@ -306,12 +306,16 @@ if [ "$VIRUS_SCAN" = "true" ]
 then
   echo "Scanning for viruses..."
   clamdscan --infected --multiscan --fdpass $OUT > $WORKSPACE/archive/virusreport.txt
-  if [ $? -eq 1 ]
+  SCAN_RESULT=$?
+  if [ $SCAN_RESULT -eq 0 ]
   then
-    export VIRUS_FOUND=" (VIRUS_FOUND)"
+    echo "No virus detected."
+  elif [ $SCAN_RESULT -eq 1 ]
+  then
     echo Virus FOUND. Removing $OUT...
-    make clobber
+    make clobber 2>/dev/null
     rm -fr $OUT
+    [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ] && ssh -p 29418 review.androidarmv6.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
     exit 1
   fi
 fi
