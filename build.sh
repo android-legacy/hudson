@@ -32,10 +32,9 @@ then
   exit 1
 fi
 
-if [ -z "$CLEAN" ]
+if [ ! -z "$GERRIT_BRANCH" ]
 then
-  echo CLEAN not specified
-  exit 1
+  export REPO_BRANCH=$GERRIT_BRANCH
 fi
 
 if [ -z "$REPO_BRANCH" ]
@@ -44,9 +43,52 @@ then
   exit 1
 fi
 
+if [ ! -z "$GERRIT_PROJECT" ]
+then
+  export RELEASE_TYPE=CM_EXPERIMENTAL
+  export CLEAN=false
+  export GERRIT_XLATION_LINT=true
+  export VIRUS_SCAN=true
+
+  vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#androidarmv6/android_device_##g)
+  device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#androidarmv6/##g )
+
+  # LDPI device (default)
+  LUNCH=cm_tass-userdebug
+  if [ ! -z $vendor_name ] && [ ! -z $device_name ]
+  then
+    if [[ "$device_name" == msm7x27* ]]
+    then
+      case "$vendor_name" in
+      lge) LUNCH=cm_p500-userdebug
+      ;;
+      samsung) LUNCH=cm_gio-userdebug
+      ;;
+      semc) LUNCH=cm_robyn-userdebug
+      ;;
+      zte) LUNCH=cm_skate-userdebug
+      ;;
+      huawei) LUNCH=cm_u8150-userdebug
+      ;;
+      *) LUNCH=cm_tass-userdebug
+      ;;
+      esac
+    else
+      LUNCH=cm_$device_name-userdebug
+    fi
+  fi
+  export LUNCH=$LUNCH
+fi
+
 if [ -z "$LUNCH" ]
 then
   echo LUNCH not specified
+  exit 1
+fi
+
+if [ -z "$CLEAN" ]
+then
+  echo CLEAN not specified
   exit 1
 fi
 
@@ -235,6 +277,12 @@ then
   export CM_EXPERIMENTAL=true
 fi
 
+
+if [ ! -z "$GERRIT_CHANGE_NUMBER" ]
+then
+  export GERRIT_CHANGES=$GERRIT_CHANGE_NUMBER
+fi
+
 if [ ! -z "$GERRIT_CHANGES" ]
 then
   export CM_EXPERIMENTAL=true
@@ -313,7 +361,7 @@ then
   elif [ $SCAN_RESULT -eq 1 ]
   then
     echo Virus FOUND. Removing $OUT...
-    make clobber 2>/dev/null
+    make clobber >/dev/null
     rm -fr $OUT
     [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ] && ssh -p 29418 review.androidarmv6.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
     exit 1
