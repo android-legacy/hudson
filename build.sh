@@ -46,18 +46,24 @@ fi
 if [ ! -z "$GERRIT_PROJECT" ]
 then
   export RELEASE_TYPE=CM_EXPERIMENTAL
-  export CLEAN=false
+  export CLEAN=true
   export GERRIT_XLATION_LINT=true
   export VIRUS_SCAN=true
 
   vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#androidarmv6/android_device_##g)
   device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#androidarmv6/##g )
 
+  if [[ "$GERRIT_PROJECT" == *kernel* ]]
+  then
+    vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#androidarmv6/android_kernel_##g)
+    device_name=msm7x2
+  fi
+
   # LDPI device (default)
   LUNCH=cm_tass-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
-    if [[ "$device_name" == msm7x27* ]]
+    if [[ "$device_name" == msm7x2* ]]
     then
       case "$vendor_name" in
       lge) LUNCH=cm_p500-userdebug
