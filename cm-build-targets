@@ -1,45 +1,128 @@
 # CM build target list
 # <lunchcombo> <branch> [period: "D"aily, "W"eekly or "M"onthly]
 # Absence of a period indicates Daily (the default)
-#########################
-cm_p500-userdebug cm-10.1
-cm_p505-userdebug cm-10.1
-cm_p506-userdebug cm-10.1
-cm_p509-userdebug cm-10.1
-cm_beni-userdebug cm-10.1
-cm_cooper-userdebug cm-10.1
-cm_galaxy5-userdebug cm-10.1
-cm_gio-userdebug cm-10.1
-cm_tass-userdebug cm-10.1
-cm_robyn-userdebug cm-10.1
-cm_shakira-userdebug cm-10.1
-cm_skate-userdebug cm-10.1
-cm_u8150-userdebug cm-10.1
-#########################
-cm_p500-userdebug jellybean W
-cm_p505-userdebug jellybean W
-cm_p506-userdebug jellybean W
-cm_p509-userdebug jellybean W
-cm_beni-userdebug jellybean W
-cm_cooper-userdebug jellybean W
-cm_galaxy5-userdebug jellybean W
-cm_gio-userdebug jellybean W
-cm_tass-userdebug jellybean W
-cm_robyn-userdebug jellybean W
-cm_shakira-userdebug jellybean W
-cm_skate-userdebug jellybean W
-cm_u8150-userdebug jellybean W
-#########################
-cm_p500-userdebug ics M
-cm_p505-userdebug ics M
-cm_p506-userdebug ics M
-cm_p509-userdebug ics M
-cm_beni-userdebug ics M
-cm_cooper-userdebug ics M
-cm_galaxy5-userdebug ics M
-cm_gio-userdebug ics M
-cm_tass-userdebug ics M
-cm_robyn-userdebug ics M
-cm_shakira-userdebug ics M
-cm_skate-userdebug ics M
-cm_u8150-userdebug ics M
+
+cm_a700-userdebug cm-10.1
+cm_acclaim-userdebug cm-10.1
+cm_anzu-userdebug jellybean W
+cm_aoba-userdebug ics W
+cm_c800-userdebug ics W
+cm_captivatemtd-userdebug cm-10.1
+cm_coconut-userdebug jellybean W
+cm_crespo-userdebug cm-10.1
+cm_crespo4g-userdebug cm-10.1
+cm_d2att-userdebug cm-10.1
+cm_d2cri-userdebug cm-10.1
+cm_d2mtr-userdebug cm-10.1
+cm_d2spr-userdebug cm-10.1
+cm_d2tmo-userdebug cm-10.1
+cm_d2usc-userdebug cm-10.1
+cm_d2vzw-userdebug cm-10.1
+cm_doubleshot-userdebug ics W
+cm_e400-userdebug ics W
+cm_e610-userdebug jellybean W
+cm_e730-userdebug ics W
+cm_e739-userdebug ics W
+cm_e975-userdebug cm-10.1
+cm_encore-userdebug cm-10.1
+cm_endeavoru-userdebug cm-10.1
+cm_epicmtd-userdebug cm-10.1
+cm_everest-userdebug cm-10.1
+#cm_evita-userdebug cm-10.1
+cm_fascinatemtd-userdebug cm-10.1
+cm_find5-userdebug cm-10.1
+#cm_fireball-userdebug cm-10.1
+cm_galaxysbmtd-userdebug cm-10.1
+cm_galaxysmtd-userdebug cm-10.1
+cm_grouper-userdebug cm-10.1
+cm_haida-userdebug jellybean W
+cm_hallon-userdebug jellybean W
+cm_hercules-userdebug cm-10.1
+cm_holiday-userdebug jellybean W
+cm_hikari-userdebug ics W
+cm_i605-userdebug cm-10.1
+cm_i777-userdebug cm-10.1
+cm_i9100-userdebug cm-10.1
+cm_i9100g-userdebug cm-10.1
+cm_i9103-userdebug cm-10.1
+cm_i9300-userdebug cm-10.1
+cm_i9305-userdebug cm-10.1
+cm_iyokan-userdebug jellybean W
+#cm_jewel-userdebug cm-10.1
+cm_l900-userdebug cm-10.1
+cm_maguro-userdebug cm-10.1
+cm_mako-userdebug cm-10.1
+cm_mango-userdebug jellybean W
+cm_manta-userdebug cm-10.1
+cm_maserati-userdebug cm-10.1
+cm_mesmerizemtd-userdebug cm-10.1
+cm_mint-userdebug cm-10.1
+cm_n7000-userdebug cm-10.1
+cm_n7100-userdebug cm-10.1
+cm_n8000-userdebug cm-10.1
+cm_n8013-userdebug cm-10.1
+cm_nozomi-userdebug ics W
+cm_odin-userdebug cm-10.1
+cm_odroidu2-userdebug cm-10.1
+cm_otter-userdebug cm-10.1
+cm_otter2-userdebug cm-10.1
+cm_p1c-userdebug jellybean W
+cm_p1l-userdebug jellybean W
+cm_p1n-userdebug jellybean W
+cm_p1-userdebug jellybean W
+cm_p3-userdebug cm-10.1
+cm_p3100-userdebug cm-10.1
+cm_p3110-userdebug cm-10.1
+cm_p4-userdebug cm-10.1
+cm_p4tmo-userdebug cm-10.1
+cm_p4vzw-userdebug cm-10.1
+cm_p4wifi-userdebug cm-10.1
+cm_p5100-userdebug cm-10.1
+cm_p5110-userdebug cm-10.1
+cm_p5-userdebug ics W
+cm_p5wifi-userdebug ics W
+cm_p700-userdebug jellybean W
+cm_p720-userdebug jellybean W
+cm_p760-userdebug cm-10.1
+cm_p880-userdebug cm-10.1
+cm_p920-userdebug jellybean W
+cm_p930-userdebug cm-10.1
+cm_p970-userdebug cm-10.1
+cm_p990-userdebug cm-10.1
+cm_pyramid-userdebug jellybean W
+cm_quincyatt-userdebug cm-10.1
+cm_quincytmo-userdebug cm-10.1
+cm_r950-userdebug cm-10.1
+cm_ruby-userdebug jellybean W
+cm_satsuma-userdebug jellybean W
+cm_shooteru-userdebug ics W
+cm_skyrocket-userdebug cm-10.1
+cm_smultron-userdebug jellybean W
+cm_solana-userdebug cm-10.1
+cm_spyder-userdebug cm-10.1
+cm_steelhead-userdebug cm-10.1
+cm_stingray-userdebug cm-10.1
+cm_su640-userdebug cm-10.1
+cm_t0lte-userdebug cm-10.1
+cm_t0lteatt-userdebug cm-10.1
+cm_t0ltetmo-userdebug cm-10.1
+cm_t769-userdebug jellybean W
+cm_targa-userdebug cm-10.1
+cm_tenderloin-userdebug ics W
+cm_tf101-userdebug jellybean W
+cm_tf201-userdebug jellybean W
+cm_tf300t-userdebug cm-10.1
+cm_tf700t-userdebug cm-10.1
+cm_tilapia-userdebug cm-10.1
+cm_toroplus-userdebug cm-10.1
+cm_toro-userdebug cm-10.1
+cm_tsubasa-userdebug cm-10.1
+cm_umts_spyder-userdebug cm-10.1
+cm_urushi-userdebug jellybean W
+cm_vibrantmtd-userdebug cm-10.1
+#cm_ville-userdebug cm-10.1
+cm_vs920-userdebug cm-10.1
+cm_wingray-userdebug cm-10.1
+cm_yuga-userdebug cm-10.1
+cm_zeus-userdebug ics W
+cm_zeusc-userdebug ics W
