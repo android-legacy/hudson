@@ -14,12 +14,11 @@ for change in sys.argv[1:]:
     d = d.split('\n')[0]
     data = json.loads(d)
     project = data['project']
-
     plist = subprocess.Popen([os.environ['HOME']+"/bin/repo","list"], stdout=subprocess.PIPE)
     out, err = plist.communicate()
     if (err is None):
-        data = [re.split('\s*:\s*', line.strip()) for line in out.split('\n') if line.strip()]
-        for item in data:
+        lines = [re.split('\s*:\s*', line.strip()) for line in out.split('\n') if line.strip()]
+        for item in lines:
             if item[1] == project:
                 project = item[0]
                 break
