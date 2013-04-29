@@ -17,15 +17,13 @@ for change in sys.argv[1:]:
     project = data['project']
 
     plist = subprocess.Popen([os.environ['HOME']+"/bin/repo","list"], stdout=subprocess.PIPE)
-    while(True):
-        retcode = plist.poll()
-        pline = plist.stdout.readline().rstrip()
-        ppaths = re.split('\s*:\s*',pline)
-        if ppaths[1] == project:
-            project = ppaths[0]
-            break
-        if(retcode is not None):
-            break
+    out, err = plist.communicate()
+    if (err is None):
+        data = [re.split('\s*:\s*', line.strip()) for line in out.split('\n') if line.strip()]
+        for item in data:
+            if item[1] == project:
+                project = item[0]
+                break
 
     print project
     number = data['number']
