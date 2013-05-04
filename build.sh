@@ -358,7 +358,8 @@ echo "============================================"
 # ClamAV virus scan
 if [ "$VIRUS_SCAN" = "true" ]
 then
-  echo "Scanning for viruses..."
+  CLAMAV_SIGNATURE=`clamdscan --version`
+  echo "Scanning for viruses with $CLAMAV_SIGNATURE..."
   clamdscan --infected --multiscan --fdpass $OUT > $WORKSPACE/archive/virusreport.txt
   SCAN_RESULT=$?
   if [ $SCAN_RESULT -eq 0 ]
@@ -369,7 +370,10 @@ then
     echo Virus FOUND. Removing $OUT...
     make clobber >/dev/null
     rm -fr $OUT
-    [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ] && ssh -p 29418 review.androidarmv6.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
+    if [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ]
+    then
+      ssh -p 29418 review.androidarmv6.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
+    fi
     exit 1
   fi
 fi
