@@ -171,14 +171,14 @@ check_result "repo init failed."
 if [[ "$REPO_BRANCH" == "jellybean" ]]
 then
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.jb_ccache
+export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
 elif [[ "$REPO_BRANCH" == cm-10* ]]
 then
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.jb2_ccache
+export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
 else
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ics_ccache
+export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
 fi
 
 if [ -f ~/.jenkins_profile ]
