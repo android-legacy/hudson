@@ -56,14 +56,14 @@ then
   if [[ "$GERRIT_PROJECT" == *kernel* ]]
   then
     vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#androidarmv6/android_kernel_##g)
-    device_name=msm7x2
+    device_name=msm7x27-common
   fi
 
   # LDPI device (default)
   LUNCH=cm_tass-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
-    if [[ "$device_name" == msm7x2* ]]
+    if [[ "$device_name" == "msm7x27-common" ]]
     then
       # Workaround for failing translation checks in common device repositories
       LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/androidarmv6-shared-repo.map)
