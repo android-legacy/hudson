@@ -48,9 +48,12 @@ cm_i9103-userdebug cm-10.1
 cm_i9300-userdebug cm-10.1
 cm_i9305-userdebug cm-10.1
 cm_iyokan-userdebug jellybean W
-cm_jfltetmo cm-10.1
+cm_jfltecan-userdebug cm-10.1
+cm_jfltetmo-userdebug cm-10.1
 #cm_jewel-userdebug cm-10.1
 cm_l900-userdebug cm-10.1
+cm_m7-userdebug cm-10.1
+cm_m7wls-userdebug cm-10.1
 cm_maguro-userdebug cm-10.1
 cm_mako-userdebug cm-10.1
 cm_mango-userdebug jellybean W
@@ -68,9 +71,7 @@ cm_odroidu2-userdebug cm-10.1
 cm_otter-userdebug cm-10.1
 cm_otter2-userdebug cm-10.1
 cm_p1c-userdebug jellybean W
-cm_p1l-userdebug jellybean W
-cm_p1n-userdebug jellybean W
-cm_p1-userdebug jellybean W
+cm_p1-userdebug cm-10.1
 cm_p3-userdebug cm-10.1
 cm_p3100-userdebug cm-10.1
 cm_p3110-userdebug cm-10.1

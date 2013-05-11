@@ -19,7 +19,7 @@ except ImportError:
 for change in sys.argv[1:]:
     print(change)
     f = urllib.request.urlopen('http://review.androidarmv6.org/query?q=change:%s' % change)
-    d = f.read()
+    d = f.read().decode()
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
     data = json.loads(d)
@@ -27,7 +27,7 @@ for change in sys.argv[1:]:
     plist = subprocess.Popen([os.environ['HOME']+"/bin/repo","list"], stdout=subprocess.PIPE)
     out, err = plist.communicate()
     if (err is None):
-        lines = [re.split('\s*:\s*', line.strip()) for line in out.split('\n') if line.strip()]
+        lines = [re.split('\s*:\s*', line.strip().decode()) for line in out.split('\n') if line.strip()]
         for item in lines:
             if item[1] == project:
                 project = item[0]

@@ -236,6 +236,12 @@ then
 fi
 
 . build/envsetup.sh
+# Workaround for failing translation checks in common hardware repositories
+if [ ! -z "$GERRIT_XLATION_LINT" ]
+then
+    LUNCH=$(echo $LUNCH@$DEVICEVENDOR | sed -f $WORKSPACE/hudson/shared-repo.map)
+fi
+
 lunch $LUNCH
 check_result "lunch failed."
 
@@ -320,7 +326,18 @@ echo "============================================"
 ccache --show-stats
 echo "============================================"
 
-WORKSPACE=$WORKSPACE LUNCH=$LUNCH sh $WORKSPACE/hudson/changes/buildlog.sh 2>&1
+rm -f $WORKSPACE/changecount
+WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
+if [ -f $WORKSPACE/changecount ]
+then
+  CHANGE_COUNT=$(cat $WORKSPACE/changecount)
+  rm -f $WORKSPACE/changecount
+  if [ $CHANGE_COUNT -eq "0" ]
+  then
+    echo "Zero changes since last build, aborting"
+    exit 1
+  fi
+fi
 
 LAST_CLEAN=0
 if [ -f .clean ]
