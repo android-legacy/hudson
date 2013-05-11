@@ -65,20 +65,8 @@ then
   then
     if [[ "$device_name" == msm7x2* ]]
     then
-      case "$vendor_name" in
-      lge) LUNCH=cm_p500-userdebug
-      ;;
-      samsung) LUNCH=cm_gio-userdebug
-      ;;
-      semc) LUNCH=cm_robyn-userdebug
-      ;;
-      zte) LUNCH=cm_skate-userdebug
-      ;;
-      huawei) LUNCH=cm_u8150-userdebug
-      ;;
-      *) LUNCH=cm_tass-userdebug
-      ;;
-      esac
+      # Workaround for failing translation checks in common device repositories
+      LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/androidarmv6-shared-repo.map)
     else
       LUNCH=cm_$device_name-userdebug
     fi
@@ -236,12 +224,6 @@ then
 fi
 
 . build/envsetup.sh
-# Workaround for failing translation checks in common hardware repositories
-if [ ! -z "$GERRIT_XLATION_LINT" ]
-then
-    LUNCH=$(echo $LUNCH@$DEVICEVENDOR | sed -f $WORKSPACE/hudson/shared-repo.map)
-fi
-
 lunch $LUNCH
 check_result "lunch failed."
 
