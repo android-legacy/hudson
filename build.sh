@@ -132,7 +132,12 @@ then
   chmod a+x ~/bin/repo
 fi
 
-git config --global user.name erikcas@androidarmv6
+if [ -z "$JENKINS_STARTED_BY" ]
+then
+  export JENKINS_STARTED_BY=$(whoami)
+fi
+
+git config --global user.name $JENKINS_STARTED_BY@androidarmv6
 git config --global user.email jenkins@androidarmv6.org
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
