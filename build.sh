@@ -46,6 +46,7 @@ fi
 if [ ! -z "$GERRIT_PROJECT" ]
 then
   export RELEASE_TYPE=CM_EXPERIMENTAL
+  export CM_EXTRAVERSION="gerrit-$GERRIT_CHANGE_NUMBER-$GERRIT_PATCHSET_NUMBER"
   export CLEAN=true
   export GERRIT_XLATION_LINT=true
   export VIRUS_SCAN=true
@@ -57,6 +58,11 @@ then
   then
     vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#androidarmv6/android_kernel_##g)
     device_name=msm7x27-common
+  fi
+
+  if [[ "$GERRIT_PROJECT" == *vendor_google* ]]
+  then
+    export MINI_GAPPS=true
   fi
 
   # LDPI device (default)
