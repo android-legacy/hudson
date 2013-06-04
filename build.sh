@@ -132,7 +132,7 @@ then
   chmod a+x ~/bin/repo
 fi
 
-git config --global user.name $(whoami)@$NODE_NAME
+git config --global user.name erikcas@androidarmv6
 git config --global user.email jenkins@androidarmv6.org
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
