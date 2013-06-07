@@ -256,11 +256,6 @@ rm -f $OUT/cm-*.zip*
 
 UNAME=$(uname)
 
-if [ ! -z "$BUILD_USER_ID" ]
-then
-  export RELEASE_TYPE=CM_EXPERIMENTAL
-fi
-
 if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
 then
   if [ "$REPO_BRANCH" = "gingerbread" ]
