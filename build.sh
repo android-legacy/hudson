@@ -119,10 +119,15 @@ export BUILD_NO=$BUILD_NUMBER
 unset BUILD_NUMBER
 
 export PATH=~/bin:$PATH
-
-export USE_CCACHE=1
-export CCACHE_NLEVELS=4
 export BUILD_WITH_COLORS=0
+
+if [[ "$RELEASE_TYPE" == "CM_RELEASE" ]]
+then
+  export USE_CCACHE=0
+else
+  export USE_CCACHE=1
+  export CCACHE_NLEVELS=4
+fi
 
 REPO=$(which repo)
 if [ -z "$REPO" ]
@@ -166,21 +171,20 @@ rm -f .repo/local_manifest.xml
 repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 
-# make sure ccache is in PATH
-if [[ "$REPO_BRANCH" == "jellybean" ]]
+if [ $USE_CCACHE -eq 1 ]
 then
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
-mkdir -p $CCACHE_DIR
-elif [[ "$REPO_BRANCH" == cm-10* ]]
-then
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
-mkdir -p $CCACHE_DIR
-else
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
-mkdir -p $CCACHE_DIR
+  # make sure ccache is in PATH
+  if [[ "$REPO_BRANCH" == "jellybean" ]]
+  then
+    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+  elif [[ "$REPO_BRANCH" == cm-10* ]]
+  then
+    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+  else
+    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
+  fi
+  export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
+  mkdir -p $CCACHE_DIR
 fi
 
 if [ -f ~/.jenkins_profile ]
@@ -305,14 +309,17 @@ then
   fi
 fi
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "64.0" ]
+if [ $USE_CCACHE -eq 1 ]
 then
-  ccache -M 64G
+  if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "64.0" ]
+  then
+    ccache -M 64G
+  fi
+  echo "============================================"
+  ccache --show-stats
+  echo "============================================"
 fi
 
-echo "============================================"
-ccache --show-stats
-echo "============================================"
 
 rm -f $WORKSPACE/changecount
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
@@ -338,12 +345,6 @@ TIME_SINCE_LAST_CLEAN=$(expr $TIME_SINCE_LAST_CLEAN / 60 / 60)
 if [ $TIME_SINCE_LAST_CLEAN -gt "24" -o $CLEAN = "true" ]
 then
   echo "Cleaning!"
-  # clean ccache dir for release builds
-  if [[ "$RELEASE_TYPE" == "CM_RELEASE" ]]
-  then
-    ccache --clear
-    rm -fr $CCACHE_DIR
-  fi
   touch .clean
   make clobber
 else
@@ -357,11 +358,14 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 time mka bacon recoveryzip recoveryimage #checkapi
 check_result "Build failed."
 
-echo "============================================"
-ccache --version
-echo "============================================"
-ccache --show-stats
-echo "============================================"
+if [ $USE_CCACHE -eq 1 ]
+then
+  echo "============================================"
+  ccache --version
+  echo "============================================"
+  ccache --show-stats
+  echo "============================================"
+fi
 
 # ClamAV virus scan
 if [ "$VIRUS_SCAN" = "true" ]
