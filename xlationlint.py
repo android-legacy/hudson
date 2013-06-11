@@ -19,7 +19,7 @@ except ImportError:
 for change in sys.argv[1:]:
     print(change)
     f = urllib.request.urlopen('http://review.androidarmv6.org/query?q=change:%s' % change)
-    d = f.read().decode()
+    d = f.read().decode("utf-8")
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
     data = json.loads(d)
