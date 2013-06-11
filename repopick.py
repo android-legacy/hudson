@@ -21,7 +21,6 @@ for change in sys.argv[1:]:
     f = urllib.request.urlopen('http://review.androidarmv6.org/query?q=change:%s' % change)
     d = f.read().decode("utf-8")
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
-    print(d)
     d = d.split('\n')[0]
     data = json.loads(d)
     project = data['project']
