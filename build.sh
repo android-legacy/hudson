@@ -66,7 +66,7 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=cm_tass-userdebug
+  LUNCH=cm_p500-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     if [[ "$device_name" == "msm7x27-common" ]]
