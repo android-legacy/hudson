@@ -69,13 +69,8 @@ then
   LUNCH=cm_p500-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
-    if [[ "$device_name" == "msm7x27-common" ]]
-    then
-      # Workaround for failing translation checks in common device repositories
-      LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/androidarmv6-shared-repo.map)
-    else
-      LUNCH=cm_$device_name-userdebug
-    fi
+    # Workaround for failing translation checks in common device repositories
+    LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/androidarmv6-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
