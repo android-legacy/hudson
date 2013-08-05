@@ -311,7 +311,7 @@ then
     ccache -M 64G
   fi
   echo "============================================"
-  ccache --show-stats
+  ccache -s
   echo "============================================"
 fi
 
@@ -356,9 +356,9 @@ check_result "Build failed."
 if [ $USE_CCACHE -eq 1 ]
 then
   echo "============================================"
-  ccache --version
+  ccache -V
   echo "============================================"
-  ccache --show-stats
+  ccache -s
   echo "============================================"
 fi
 
