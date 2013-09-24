@@ -66,7 +66,7 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=cm_p500-userdebug
+  LUNCH=cm_galaxy5-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
