@@ -178,7 +178,7 @@ then
   else
     export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
   fi
-  export CCACHE_DIR=~/.ccdir/$JOB_NAME/$REPO_BRANCH
+  export CCACHE_DIR=/tmp/jenkins/ccache/$JOB_NAME/$REPO_BRANCH
   mkdir -p $CCACHE_DIR
 fi
 
