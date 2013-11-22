@@ -169,15 +169,7 @@ check_result "repo init failed."
 if [ $USE_CCACHE -eq 1 ]
 then
   # make sure ccache is in PATH
-  if [[ "$REPO_BRANCH" == "jellybean" ]]
-  then
-    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-  elif [[ "$REPO_BRANCH" == cm-10* ]]
-  then
-    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-  else
-    export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
-  fi
+  export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
   export CCACHE_DIR=/ccache-jenkins/$JOB_NAME/$REPO_BRANCH
   mkdir -p $CCACHE_DIR
 fi
@@ -189,8 +181,6 @@ fi
 
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
-
-cp $WORKSPACE/hudson/$REPO_BRANCH.xml .repo/local_manifests/dyn-$REPO_BRANCH.xml
 
 echo Core Manifest:
 cat .repo/manifest.xml
@@ -212,12 +202,7 @@ check_result "repo sync failed.", true, true
 # SUCCESS
 echo Sync complete.
 
-if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
-then
-  $WORKSPACE/hudson/$REPO_BRANCH-setup.sh
-else
-  $WORKSPACE/hudson/cm-setup.sh
-fi
+$WORKSPACE/hudson/cm-setup.sh
 
 if [ -f .last_branch ]
 then
@@ -257,20 +242,12 @@ UNAME=$(uname)
 
 if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
 then
-  if [ "$REPO_BRANCH" = "gingerbread" ]
-  then
-    export CYANOGEN_NIGHTLY=true
-  else
-    export CM_NIGHTLY=true
-  fi
+  export CM_NIGHTLY=true
 elif [ "$RELEASE_TYPE" = "CM_EXPERIMENTAL" ]
 then
   export CM_EXPERIMENTAL=true
 elif [ "$RELEASE_TYPE" = "CM_RELEASE" ]
 then
-  # gingerbread needs this
-  export CYANOGEN_RELEASE=true
-  # ics needs this
   export CM_RELEASE=true
 fi
 
@@ -404,7 +381,6 @@ ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
-rm -f .repo/local_manifests/dyn-$REPO_BRANCH.xml
 rm -f .repo/local_manifests/roomservice.xml
 
 # Stash away other possible manifests
