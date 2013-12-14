@@ -162,13 +162,13 @@ fi
 
 
 # remove non-core repos
-rm -fr kernel/*
-rm -fr device/lge/*
-rm -fr device/samsung/*
-rm -fr device/zte/*
-rm -fr vendor/lge/*
-rm -fr vendor/samsung/*
-rm -fr vendor/zte/*
+rm -fr kernel/
+rm -fr device/lge/
+rm -fr device/samsung/
+rm -fr device/zte/
+rm -fr vendor/lge/
+rm -fr vendor/samsung/
+rm -fr vendor/zte/
 
 # remove manifests
 rm -rf .repo/manifests*
