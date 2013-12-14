@@ -160,9 +160,21 @@ else
   MANIFEST=""
 fi
 
+
+# remove non-core repos
+rm -fr kernel/*
+rm -fr device/lge/*
+rm -fr device/samsung/*
+rm -fr device/zte/*
+rm -fr vendor/lge/*
+rm -fr vendor/samsung/*
+rm -fr vendor/zte/*
+
+# remove manifests
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
+
 repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 
