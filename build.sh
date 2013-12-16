@@ -185,7 +185,7 @@ if [ ! -z "$CHERRYPICK_REV" ]
 then
   cd .repo/manifests
   sleep 20
-  git fetch $GERRIT_REFSPEC
+  git fetch origin $GERRIT_REFSPEC
   git cherry-pick $CHERRYPICK_REV
   cd ../..
 fi
