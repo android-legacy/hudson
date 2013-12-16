@@ -65,6 +65,11 @@ then
     export MINI_GAPPS=true
   fi
 
+  if [[ "$GERRIT_PROJECT" == "androidarmv6/android" ]]
+  then
+    export CHERRYPICK_REV=$GERRIT_PATCHSET_REVISION
+  fi
+
   # LDPI device (default)
   LUNCH=cm_galaxy5-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
@@ -174,9 +179,16 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-
 repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
+if [ ! -z "$CHERRYPICK_REV" ]
+then
+  cd .repo/manifests
+  sleep 20
+  git fetch $GERRIT_REFSPEC
+  git cherry-pick $CHERRYPICK_REV
+  cd ../..
+fi
 
 if [ $USE_CCACHE -eq 1 ]
 then
