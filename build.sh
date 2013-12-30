@@ -71,7 +71,7 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=omni_galaxy5-userdebug
+  LUNCH=omni_p500-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
