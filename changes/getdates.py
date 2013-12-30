@@ -50,11 +50,11 @@ else:
 
 headers = {}
 headers['Content-Type'] = 'application/json'
-headers['User-Agent'] = 'androidarmv6 changelog builder'
+headers['User-Agent'] = 'omniarmv6 changelog builder'
 headers['Accept'] = '*/*'
 headers['Content-Length'] = "%d" % (len(logrequest))
 
-conn = http.client.HTTPConnection('get.cm', 80)
+conn = http.client.HTTPConnection('download.cyanogenmod.org', 80)
 conn.connect()
 request = conn.putrequest('POST', '/api')
 

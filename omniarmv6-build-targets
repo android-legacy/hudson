@@ -1,0 +1,12 @@
+# omni build target list
+# <lunchcombo> <branch> [period: "D"aily, "W"eekly or "M"onthly]
+# Absence of a period indicates Daily (the default)
+
+#########################
+omni_p500-userdebug android-4.4
+omni_beni-userdebug android-4.4
+omni_callisto-userdebug android-4.4
+omni_cooper-userdebug android-4.4
+omni_galaxy5-userdebug android-4.4
+omni_gio-userdebug android-4.4
+omni_tass-userdebug android-4.44

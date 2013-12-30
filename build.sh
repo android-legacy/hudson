@@ -51,12 +51,12 @@ then
   export GERRIT_XLATION_LINT=true
   export VIRUS_SCAN=true
 
-  vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#androidarmv6/android_device_##g)
-  device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#androidarmv6/##g )
+  vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#omniarmv6/android_device_##g)
+  device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#omniarmv6/##g )
 
   if [[ "$GERRIT_PROJECT" == *kernel* ]]
   then
-    vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#androidarmv6/android_kernel_##g)
+    vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#omniarmv6/android_kernel_##g)
     device_name=msm7x27-common
   fi
 
@@ -65,17 +65,17 @@ then
     export MINI_GAPPS=true
   fi
 
-  if [[ "$GERRIT_PROJECT" == "androidarmv6/android" ]]
+  if [[ "$GERRIT_PROJECT" == "omniarmv6/android" ]]
   then
     export CHERRYPICK_REV=$GERRIT_PATCHSET_REVISION
   fi
 
   # LDPI device (default)
-  LUNCH=cm_galaxy5-userdebug
+  LUNCH=omni_galaxy5-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
-    LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/androidarmv6-shared-repo.map)
+    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/omniarmv6-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
@@ -142,7 +142,7 @@ then
   export BUILD_USER_ID=$(whoami)
 fi
 
-git config --global user.name $BUILD_USER_ID@androidarmv6
+git config --global user.name $BUILD_USER_ID@omniarmv6
 git config --global user.email jenkins@androidarmv6.org
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
@@ -179,7 +179,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/androidarmv6/android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/omniarmv6/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
@@ -226,7 +226,7 @@ check_result "repo sync failed.", true, true
 # SUCCESS
 echo Sync complete.
 
-$WORKSPACE/hudson/cm-setup.sh
+#$WORKSPACE/hudson/cm-setup.sh
 
 if [ -f .last_branch ]
 then
@@ -260,7 +260,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
-rm -f $OUT/cm-*.zip*
+rm -f $OUT/omni-*.zip*
 
 UNAME=$(uname)
 
@@ -387,7 +387,7 @@ then
 fi
 
 # /archive
-for f in $(ls $OUT/cm-*.zip*)
+for f in $(ls $OUT/omni-*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
 done
@@ -401,7 +401,7 @@ then
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
+ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
@@ -425,11 +425,11 @@ then
   MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
   if [ -z "$MODVERSION" ]
   then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
+    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.omni.version | cut -d = -f 2)
   fi
   if [ -z "$MODVERSION" ]
   then
-    echo "Unable to detect ro.modversion or ro.cm.version."
+    echo "Unable to detect ro.modversion or ro.omni.version."
     exit 1
   fi
   echo Archiving release to S3.

@@ -26,5 +26,5 @@ done
 
 if [ -z "$prevts" ]; then
   rm -f $WORKSPACE/changecount
-  echo "This is the first androidarmv6 build of this type for device $CM_BUILD" >> $CHANGESPATH
+  echo "This is the first omniarmv6 build of this type for device $CM_BUILD" >> $CHANGESPATH
 fi
