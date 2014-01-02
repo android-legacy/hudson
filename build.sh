@@ -45,7 +45,7 @@ fi
 
 if [ ! -z "$GERRIT_PROJECT" ]
 then
-  export RELEASE_TYPE=CM_EXPERIMENTAL
+  export ROM_BUILDTYPE=AUTOTEST
   export CM_EXTRAVERSION="gerrit-$GERRIT_CHANGE_NUMBER-$GERRIT_PATCHSET_NUMBER"
   export CLEAN=true
   export GERRIT_XLATION_LINT=true
@@ -92,9 +92,9 @@ then
   exit 1
 fi
 
-if [ -z "$RELEASE_TYPE" ]
+if [ -z "$ROM_BUILDTYPE" ]
 then
-  echo RELEASE_TYPE not specified
+  echo ROM_BUILDTYPE not specified
   exit 1
 fi
 
@@ -121,7 +121,7 @@ unset BUILD_NUMBER
 export PATH=~/bin:$PATH
 export BUILD_WITH_COLORS=0
 
-if [[ "$RELEASE_TYPE" == "CM_RELEASE" ]]
+if [[ "$ROM_BUILDTYPE" == "RELEASE" ]]
 then
   export USE_CCACHE=0
 else
@@ -263,17 +263,6 @@ rmdir $TEMPSTASH
 rm -f $OUT/omni-*.zip*
 
 UNAME=$(uname)
-
-if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
-then
-  export CM_NIGHTLY=true
-elif [ "$RELEASE_TYPE" = "CM_EXPERIMENTAL" ]
-then
-  export CM_EXPERIMENTAL=true
-elif [ "$RELEASE_TYPE" = "CM_RELEASE" ]
-then
-  export CM_RELEASE=true
-fi
 
 if [ ! -z "$CM_EXTRAVERSION" ]
 then
