@@ -129,6 +129,9 @@ else
   export CCACHE_NLEVELS=4
 fi
 
+#AOKP compability
+export AOKP_BUILD=$ROM_BUILDTYPE
+
 REPO=$(which repo)
 if [ -z "$REPO" ]
 then
