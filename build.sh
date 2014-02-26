@@ -143,7 +143,7 @@ then
 fi
 
 git config --global user.name $BUILD_USER_ID@omniarmv6
-git config --global user.email jenkins@androidarmv6.org
+git config --global user.email jenkins@android-legacy.com
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
 
@@ -369,7 +369,7 @@ then
     rm -fr $OUT
     if [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ]
     then
-      ssh -p 29418 review.androidarmv6.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
+      ssh -p 29418 review.android-legacy.com gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
     fi
     exit 1
   fi
