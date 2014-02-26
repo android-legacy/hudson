@@ -1,0 +1,10 @@
+# CM build target list
+# <lunchcombo> <branch> [period: "D"aily, "W"eekly or "M"onthly]
+# Absence of a period indicates Daily (the default)
+
+#########################
+cm_jenad-userdebug cm-11.0 D
+#########################
+aokp_jenad-userdebug kitkat D
+#########################
+omni_jenad-userdebug android-4.4 D
