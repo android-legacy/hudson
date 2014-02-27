@@ -146,7 +146,7 @@ then
 fi
 
 git config --global user.name $BUILD_USER_ID@android-legacy
-git config --global user.email jenkins@android-legacy.com
+git config --global user.email erikcas1972@gmail.com
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
 
