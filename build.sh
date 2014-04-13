@@ -45,7 +45,7 @@ fi
 
 if [ ! -z "$GERRIT_PROJECT" ]
 then
-  export ROM_BUILDTYPE=AUTOTEST
+  export RELEASE_TYPE=AUTOTEST
   export CM_EXTRAVERSION="gerrit-$GERRIT_CHANGE_NUMBER-$GERRIT_PATCHSET_NUMBER"
   export CLEAN=true
   export GERRIT_XLATION_LINT=true
@@ -92,9 +92,9 @@ then
   exit 1
 fi
 
-if [ -z "$ROM_BUILDTYPE" ]
+if [ -z "$RELEASE_TYPE" ]
 then
-  echo ROM_BUILDTYPE not specified
+  echo RELEASE_TYPE not specified
   exit 1
 fi
 
@@ -121,7 +121,7 @@ unset BUILD_NUMBER
 export PATH=~/bin:$PATH
 export BUILD_WITH_COLORS=0
 
-if [[ "$ROM_BUILDTYPE" == "RELEASE" ]]
+if [[ "$RELEASE_TYPE" == "RELEASE" ]]
 then
   export USE_CCACHE=0
 else
@@ -130,7 +130,7 @@ else
 fi
 
 #AOKP compability
-export AOKP_BUILD=$ROM_BUILDTYPE
+export AOKP_BUILD=$RELEASE_TYPE
 
 REPO=$(which repo)
 if [ -z "$REPO" ]
