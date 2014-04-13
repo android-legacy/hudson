@@ -245,6 +245,8 @@ then
   CLEAN="true"
 fi
 
+devices/samsung/msm7x27a/patches/install-all.sh
+
 . build/envsetup.sh
 lunch $LUNCH
 check_result "lunch failed."
