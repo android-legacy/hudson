@@ -245,13 +245,12 @@ then
   CLEAN="true"
 fi
 
-devices/samsung/msm7x27a/patches/install-all.sh
-
 . build/envsetup.sh
 lunch $LUNCH
 check_result "lunch failed."
 
 # save manifest used for build (saving revisions as current HEAD)
+device/samsung/msm7x27a/patches/install-all.sh
 
 # include only the auto-generated locals
 TEMPSTASH=$(mktemp -d)
