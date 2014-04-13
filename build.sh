@@ -229,7 +229,7 @@ check_result "repo sync failed.", true, true
 # SUCCESS
 echo Sync complete.
 
-#$WORKSPACE/hudson/cm-setup.sh
+$WORKSPACE/hudson/cm-setup.sh
 
 if [ -f .last_branch ]
 then
