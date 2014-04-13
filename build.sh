@@ -250,7 +250,8 @@ lunch $LUNCH
 check_result "lunch failed."
 
 # save manifest used for build (saving revisions as current HEAD)
-device/samsung/msm7x27a/patches/install-all.sh
+
+device/samsung/msm7x27a-common/patches/install-all.sh
 
 # include only the auto-generated locals
 TEMPSTASH=$(mktemp -d)
