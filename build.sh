@@ -71,11 +71,11 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=omni_p500-userdebug
+  LUNCH=cm_p500-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
-    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
+    LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
@@ -263,7 +263,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
-rm -f $OUT/omni-*.zip*
+rm -f $OUT/cm-*.zip*
 
 UNAME=$(uname)
 
@@ -379,7 +379,7 @@ then
 fi
 
 # /archive
-for f in $(ls $OUT/omni-*.zip*)
+for f in $(ls $OUT/cm-*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
 done
@@ -393,7 +393,7 @@ then
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
+ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
@@ -417,11 +417,11 @@ then
   MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
   if [ -z "$MODVERSION" ]
   then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.omni.version | cut -d = -f 2)
+    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
   fi
   if [ -z "$MODVERSION" ]
   then
-    echo "Unable to detect ro.modversion or ro.omni.version."
+    echo "Unable to detect ro.modversion or ro.cm.version."
     exit 1
   fi
   echo Archiving release to S3.

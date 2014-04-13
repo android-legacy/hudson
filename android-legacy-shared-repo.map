@@ -1,5 +1,5 @@
 s|aokp_msm7x27a-common-userdebug@sasmung|aokp_jenad-userdebug|g
-s|omni_msm7x27a-common-userdebug@samsung|omni_jenad-userdebug|g
+s|cm_msm7x27a-common-userdebug@samsung|cm_jenad-userdebug|g
 s|cm_msm7x27a-common-userdebug@samsung|cm_jenad-userdebug|g
 ## Don't remove this line
 s|@.*||g
