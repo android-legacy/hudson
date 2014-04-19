@@ -145,7 +145,7 @@ then
   export BUILD_USER_ID=$(whoami)
 fi
 
-git config --global user.name $BUILD_USER_ID
+git config --global user.name $BUILD_USER_ID@android-legacy
 git config --global user.email review@android-legacy.com
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
