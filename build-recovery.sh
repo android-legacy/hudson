@@ -83,7 +83,7 @@ cd $REPO_BRANCH
 rm -rf .repo/manifests*
 rm -rf .repo/local_manifests/
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/android.git -b $REPO_BRANCH
+repo init -u $SYNC_PROTO://github.com/android-legacy/cm-android.git -b $REPO_BRANCH
 check_result "repo init failed."
 
 mkdir -p .repo/local_manifests

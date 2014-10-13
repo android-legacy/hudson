@@ -182,7 +182,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/android-legacy/cm-android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
