@@ -212,6 +212,10 @@ rm -f .repo/local_manifest.xml
 echo Core Manifest:
 cat .repo/manifest.xml
 
+# temp hack: remove vendor/sony/eagle
+echo remove eagle vendor dir:
+rm -rf vendor/sony/eagle
+
 echo Syncing...
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
