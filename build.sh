@@ -182,7 +182,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/android-legacy/omni-android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
@@ -215,6 +215,8 @@ cat .repo/manifest.xml
 echo Syncing...
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
+rm -rf vendor
+
 repo sync -d -c -f -j16
 check_result "repo sync failed.", false, false
 
