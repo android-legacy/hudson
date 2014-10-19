@@ -249,6 +249,7 @@ then
   CLEAN="true"
 fi
 
+export RECOVERY_VARIANT=philz
 . build/envsetup.sh
 lunch $LUNCH
 check_result "lunch failed."
