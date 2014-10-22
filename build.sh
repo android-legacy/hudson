@@ -217,6 +217,11 @@ echo remove eagle vendor dir:
 rm -rf vendor/sony/eagle
 
 echo Syncing...
+rm -rf .repo/local_manifests
+mkdir -p .repo/local_manifests
+cd .repo/local_manifests
+wget http://git.cas-online.nl/local_manifest/plain/local_manifest.xml
+cd ../..
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
 repo sync -d -c -f -j16
