@@ -369,7 +369,8 @@ git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
 
 cd ../../../
 
-make -j16 otapackage # recoveryzip recoveryimage checkapi
+make -j16
+# recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
