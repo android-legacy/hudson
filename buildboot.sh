@@ -45,7 +45,7 @@ fi
 
 if [ ! -z "$GERRIT_PROJECT" ]
 then
-  export RELEASE_TYPE=AUTOTEST
+  export ROM_BUILDTYPE=AUTOTEST
   export CM_EXTRAVERSION="gerrit-$GERRIT_CHANGE_NUMBER-$GERRIT_PATCHSET_NUMBER"
   export CLEAN=true
   export GERRIT_XLATION_LINT=true
@@ -71,11 +71,11 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=cm_p500-userdebug
+  LUNCH=omni_p500-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
-    LUNCH=$(echo cm_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
+    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
@@ -92,9 +92,9 @@ then
   exit 1
 fi
 
-if [ -z "$RELEASE_TYPE" ]
+if [ -z "$ROM_BUILDTYPE" ]
 then
-  echo RELEASE_TYPE not specified
+  echo ROM_BUILDTYPE not specified
   exit 1
 fi
 
@@ -121,7 +121,7 @@ unset BUILD_NUMBER
 export PATH=~/bin:$PATH
 export BUILD_WITH_COLORS=0
 
-if [[ "$RELEASE_TYPE" == "RELEASE" ]]
+if [[ "$ROM_BUILDTYPE" == "RELEASE" ]]
 then
   export USE_CCACHE=0
 else
@@ -130,7 +130,7 @@ else
 fi
 
 #AOKP compability
-export AOKP_BUILD=$RELEASE_TYPE
+export AOKP_BUILD=$ROM_BUILDTYPE
 
 REPO=$(which repo)
 if [ -z "$REPO" ]
@@ -182,7 +182,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/cm-android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/android-legacy/omni-android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
@@ -215,6 +215,8 @@ cat .repo/manifest.xml
 echo Syncing...
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
+rm -rf vendor
+
 repo sync -d -c -f -j16
 check_result "repo sync failed.", false, false
 
@@ -229,7 +231,7 @@ check_result "repo sync failed.", true, true
 # SUCCESS
 echo Sync complete.
 
-$WORKSPACE/hudson/cm-setup.sh
+#$WORKSPACE/hudson/cm-setup.sh
 
 if [ -f .last_branch ]
 then
@@ -263,7 +265,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
-rm -f $OUT/cm-*.zip*
+rm -f $OUT/omni-*.zip*
 
 UNAME=$(uname)
 
@@ -343,7 +345,7 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-time mka bootimage
+time mka bacon bootimage
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
@@ -379,7 +381,7 @@ then
 fi
 
 # /archive
-for f in $(ls $OUT/cm-*.zip*)
+for f in $(ls $OUT/omni-*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
 done
@@ -393,7 +395,7 @@ then
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
+ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
@@ -417,11 +419,11 @@ then
   MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
   if [ -z "$MODVERSION" ]
   then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
+    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.omni.version | cut -d = -f 2)
   fi
   if [ -z "$MODVERSION" ]
   then
-    echo "Unable to detect ro.modversion or ro.cm.version."
+    echo "Unable to detect ro.modversion or ro.omni.version."
     exit 1
   fi
   echo Archiving release to S3.
