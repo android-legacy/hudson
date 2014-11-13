@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 function check_result {
   if [ "0" -ne "$?" ]
   then
@@ -71,7 +72,7 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=omni_p500-userdebug
+  LUNCH=aosp_d2303-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
@@ -182,7 +183,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/omni-android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://android.googlesource.com/platform/manifest -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
@@ -208,9 +209,14 @@ fi
 
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
-
+rm -f .repo/local_manifests/*
+cd .repo/local_manifests/
+wget http://git.cas-online.nl/local_manifest/plain/local_manifest.xml
+cd ../../
 echo Core Manifest:
 cat .repo/manifest.xml
+echo Local Manifest
+cat .repo/local_manifests/local_manifest.xml
 
 echo Syncing...
 # if sync fails:
@@ -345,7 +351,7 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-time mka bacon # recoveryzip recoveryimage checkapi
+make -j16 otapackage # recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
