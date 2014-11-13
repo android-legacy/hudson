@@ -223,16 +223,8 @@ echo Syncing...
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
 rm -rf vendor
 
-repo sync -d -c -f -j16
+repo sync -j16
 check_result "repo sync failed.", false, false
-
-# sync again, delete roomservice.xml if sync fails
-repo sync -d -c -f -j4
-check_result "repo sync failed.", false, true
-
-# last sync, delete roomservice.xml and exit if sync fails
-repo sync -d -c -f -j4
-check_result "repo sync failed.", true, true
 
 # SUCCESS
 echo Sync complete.
@@ -351,6 +343,32 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
+cd build
+
+git cherry-pick 612e2cd0e8c79bc6ab46d13cd96c01d1be382139
+
+cd ..
+
+cd hardware/qcom/bt
+
+git cherry-pick 5a6037f1c8b5ff0cf263c9e63777444ba239a056
+
+cd ../../../
+
+cd hardware/qcom/audio
+
+git cherry-pick 00f6869a0981b570f90dbf39981734f36eafdfa9
+
+cd ../../../
+
+cd hardware/qcom/display
+
+git cherry-pick d5ae1812a9509d8849f4494fcf17f68bf33f533c
+
+git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
+
+cd ../../../
+
 make -j16 otapackage # recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
