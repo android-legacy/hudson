@@ -183,7 +183,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://android.googlesource.com/platform/manifest -b $CORE_BRANCH $MANIFEST
+repo init repo init -u https://android.googlesource.com/platform/manifest -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
