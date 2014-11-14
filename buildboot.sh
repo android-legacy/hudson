@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 function check_result {
   if [ "0" -ne "$?" ]
   then
@@ -71,11 +72,11 @@ then
   fi
 
   # LDPI device (default)
-  LUNCH=omni_p500-userdebug
+  LUNCH=aosp_d2303-userdebug
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
-    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
+    LUNCH=$(echo aosp_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
@@ -182,7 +183,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/android-legacy/omni-android.git -b $CORE_BRANCH $MANIFEST
+repo init repo init -u https://android.googlesource.com/platform/manifest -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then
@@ -208,25 +209,22 @@ fi
 
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
-
+rm -f .repo/local_manifests/*
+cd .repo/local_manifests/
+wget http://git.cas-online.nl/local_manifest/plain/local_manifest.xml
+cd ../../
 echo Core Manifest:
 cat .repo/manifest.xml
+echo Local Manifest
+cat .repo/local_manifests/local_manifest.xml
 
 echo Syncing...
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
 rm -rf vendor
 
-repo sync -d -c -f -j16
+repo sync -j4
 check_result "repo sync failed.", false, false
-
-# sync again, delete roomservice.xml if sync fails
-repo sync -d -c -f -j4
-check_result "repo sync failed.", false, true
-
-# last sync, delete roomservice.xml and exit if sync fails
-repo sync -d -c -f -j4
-check_result "repo sync failed.", true, true
 
 # SUCCESS
 echo Sync complete.
@@ -265,7 +263,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
-rm -f $OUT/omni-*.zip*
+rm -f $OUT/*.zip*
 
 UNAME=$(uname)
 
@@ -345,7 +343,35 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-time mka bacon bootimage
+cd build
+
+git cherry-pick 612e2cd0e8c79bc6ab46d13cd96c01d1be382139
+
+cd ..
+
+cd hardware/qcom/bt
+
+git cherry-pick 5a6037f1c8b5ff0cf263c9e63777444ba239a056
+
+cd ../../../
+
+cd hardware/qcom/audio
+
+git cherry-pick 00f6869a0981b570f90dbf39981734f36eafdfa9
+git cherry-pick 20bcfa8b451941843e8eabb5308f1f04f07d347a
+
+cd ../../../
+
+cd hardware/qcom/display
+
+git cherry-pick d5ae1812a9509d8849f4494fcf17f68bf33f533c
+
+git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
+
+cd ../../../
+
+make bootimage -j16
+# recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
 if [ $USE_CCACHE -eq 1 ]
@@ -381,7 +407,7 @@ then
 fi
 
 # /archive
-for f in $(ls $OUT/omni-*.zip*)
+for f in $(ls $OUT/*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
 done
@@ -389,13 +415,13 @@ if [ -f $OUT/utilties/update.zip ]
 then
   cp $OUT/utilties/update.zip $WORKSPACE/archive/recovery.zip
 fi
-if [ -f $OUT/recovery.img ]
+if [ -f $OUT/boot.img ]
 then
-  cp $OUT/recovery.img $WORKSPACE/archive
+  cp $OUT/boot.img $WORKSPACE/archive
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
+ZIP=$(ls $WORKSPACE/archive/*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
@@ -419,11 +445,11 @@ then
   MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
   if [ -z "$MODVERSION" ]
   then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.omni.version | cut -d = -f 2)
+    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.aosp.version | cut -d = -f 2)
   fi
   if [ -z "$MODVERSION" ]
   then
-    echo "Unable to detect ro.modversion or ro.omni.version."
+    echo "Unable to detect ro.modversion or ro.aosp.version."
     exit 1
   fi
   echo Archiving release to S3.
