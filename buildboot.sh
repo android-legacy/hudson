@@ -370,6 +370,7 @@ git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
 
 cd ../../../
 
+make otatools -j16
 make bootimage -j16
 # recoveryzip recoveryimage checkapi
 check_result "Build failed."
