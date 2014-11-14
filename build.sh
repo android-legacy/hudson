@@ -358,6 +358,7 @@ cd ../../../
 cd hardware/qcom/audio
 
 git cherry-pick 00f6869a0981b570f90dbf39981734f36eafdfa9
+git cherry-pick 20bcfa8b451941843e8eabb5308f1f04f07d347a
 
 cd ../../../
 
@@ -369,7 +370,6 @@ git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
 
 cd ../../../
 
-make update-api -j16
 make -j16
 # recoveryzip recoveryimage checkapi
 check_result "Build failed."
