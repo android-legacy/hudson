@@ -72,7 +72,6 @@ cat .repo/local_manifests/local_manifest.xml
 echo Syncing...
 
 repo sync -j4
-check_result "repo sync failed.", false, false
 
 # SUCCESS
 echo Sync complete.
@@ -93,7 +92,6 @@ fi
 
 . build/envsetup.sh
 lunch $LUNCH
-check_result "lunch failed."
 
 # save manifest used for build (saving revisions as current HEAD)
 
