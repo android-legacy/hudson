@@ -5,13 +5,8 @@ function check_result {
   then
     local err_message=${1:-""}
     local exit_die=${2:-"true"}
-    local rm_roomservice=${3:-"true"}
     (repo forall -c "git reset --hard; git clean -fdx") >/dev/null
     rm -f .repo/local_manifests/dyn-*.xml
-    if [ "$rm_roomservice" = "true" ]
-    then
-      rm -f .repo/local_manifests/roomservice.xml
-    fi
     echo $err_message
     if [ "$exit_die" = "true" ]
     then
@@ -215,7 +210,6 @@ cat .repo/manifest.xml
 echo Syncing...
 # if sync fails:
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
-rm -rf vendor
 
 repo sync -d -c -f -j16
 check_result "repo sync failed.", false, false
