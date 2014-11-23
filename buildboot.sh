@@ -389,9 +389,9 @@ if [ -f $OUT/utilties/update.zip ]
 then
   cp $OUT/utilties/update.zip $WORKSPACE/archive/recovery.zip
 fi
-if [ -f $OUT/recovery.img ]
+if [ -f $OUT/boot.img ]
 then
-  cp $OUT/recovery.img $WORKSPACE/archive
+  cp $OUT/boot.img $WORKSPACE/archive
 fi
 
 # archive the build.prop as well
