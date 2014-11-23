@@ -392,9 +392,6 @@ fi
 ZIP=$(ls $WORKSPACE/archive/omni-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
-# CORE: save manifest used for build (saving revisions as current HEAD)
-rm -f .repo/local_manifests/roomservice.xml
-
 # Stash away other possible manifests
 TEMPSTASH=$(mktemp -d)
 mv .repo/local_manifests $TEMPSTASH
