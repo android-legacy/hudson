@@ -189,7 +189,7 @@ git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
 
 cd ../../../
 
-make -j16 otapackage
+make -j16
 
 if [ $USE_CCACHE -eq 1 ]
 then
