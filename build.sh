@@ -303,7 +303,7 @@ if [ $USE_CCACHE -eq 1 ]
 then
   if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "64.0" ]
   then
-    ccache -M 8G
+    ccache -M 48G
   fi
   echo "============================================"
   ccache -s
