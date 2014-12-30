@@ -223,7 +223,7 @@ echo Syncing...
 # clean repos (uncommitted changes are present), don't delete roomservice.xml, don't exit
 rm -rf vendor
 
-repo sync -j4
+repo sync
 check_result "repo sync failed.", false, false
 
 # SUCCESS
