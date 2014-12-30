@@ -343,34 +343,22 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
 # envsetup.sh:mka = schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
 # Don't add -jXX. mka adds it automatically...
-cd build
-
-git cherry-pick 612e2cd0e8c79bc6ab46d13cd96c01d1be382139
-
-cd ..
-
 cd hardware/qcom/bt
 
 git cherry-pick 5a6037f1c8b5ff0cf263c9e63777444ba239a056
 
-cd ../../../
+cd ../display
 
-cd hardware/qcom/audio
+git cherry-pick e9e1e3a16144a2410e592f67bab8e24c60df52ea
 
-git cherry-pick 00f6869a0981b570f90dbf39981734f36eafdfa9
-git cherry-pick 20bcfa8b451941843e8eabb5308f1f04f07d347a
+git revert 0fdae193307fb17bb537598ab62682edd5138b72
 
-cd ../../../
+cd ../../../external/libnfc-nci/
 
-cd hardware/qcom/display
+git fetch https://android.googlesource.com/platform/external/libnfc-nci refs/changes/42/103142/1 && git cherry-pick FETCH_HEAD
 
-git cherry-pick d5ae1812a9509d8849f4494fcf17f68bf33f533c
+cd ../..
 
-git cherry-pick 5898f2e789800fb196ce94532eef033e7d7e60b3
-
-cd ../../../
-
-make -j16 update-api
 make -j16
 # recoveryzip recoveryimage checkapi
 check_result "Build failed."
