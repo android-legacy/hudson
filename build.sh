@@ -199,7 +199,7 @@ if [ $USE_CCACHE -eq 1 ]
 then
   # make sure ccache is in PATH
   export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-  export CCACHE_DIR=/ccache-erikcas
+  export CCACHE_DIR=~/ccache-erikcas
   mkdir -p $CCACHE_DIR
 fi
 
