@@ -18,7 +18,7 @@ except ImportError:
 
 for change in sys.argv[1:]:
     print(change)
-    f = urllib.request.urlopen('http://review.android-legacy.com/query?q=change:%s' % change)
+    f = urllib.request.urlopen('http://review.cas-online.nl/query?q=change:%s' % change)
     d = f.read().decode("utf-8")
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
@@ -36,7 +36,7 @@ for change in sys.argv[1:]:
     print(project)
     number = data['number']
 
-    f = urllib.request.urlopen("http://review.android-legacy.com/changes/%s/revisions/current/review" % number)
+    f = urllib.request.urlopen("http://review.cas-online.nl/changes/%s/revisions/current/review" % number)
     d = f.read().decode("utf-8")
     d = '\n'.join(d.split('\n')[1:])
     data = json.loads(d)
@@ -61,5 +61,5 @@ for change in sys.argv[1:]:
         sys.stderr.write('no project directory: %s' % project)
         sys.exit(1)
 
-    os.system('cd %s ; git fetch http://review.android-legacy.com/%s %s' % (project, data['project'], ref))
+    os.system('cd %s ; git fetch http://review.cas-online.nl/%s %s' % (project, data['project'], ref))
     os.system('cd %s ; git merge FETCH_HEAD' % project)
