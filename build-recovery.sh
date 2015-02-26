@@ -220,7 +220,7 @@ check_result "Build failed."
 if [ -z "$NO_UPLOAD" ]
 then
   pushd ROMManagerManifest
-  git commit -a -m "builder: $DEVICE updated on behalf of $INITIATING_OWNER $BUILD_NO: http://jenkins.cas-online.nl/job/recovery/$BUILD_NO"
+  git commit -a -m "builder: $DEVICE updated on behalf of $INITIATING_OWNER $BUILD_NO: http://jenkins.android-legacy.com/job/recovery/$BUILD_NO"
   git push private HEAD:gh-pages
   popd
 fi

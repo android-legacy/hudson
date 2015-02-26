@@ -376,7 +376,7 @@ then
     rm -fr $OUT
     if [ ! -z "$GERRIT_CHANGE_NUMBER" ] && [ ! -z "$GERRIT_PATCHSET_NUMBER" ] && [ ! -z "$BUILD_URL" ]
     then
-      ssh -p 29418 $BUILD_USER_ID@review.cas-online.nl gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
+      ssh -p 29418 $BUILD_USER_ID@review.android-legacy.com gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER --code-review -1 --message "'$BUILD_URL : VIRUS FOUND'"
     fi
     exit 1
   fi
