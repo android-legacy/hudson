@@ -46,12 +46,12 @@ then
   export GERRIT_XLATION_LINT=true
   export VIRUS_SCAN=true
 
-  vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#sony-omni/android_device_##g)
-  device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#sony-omni/##g )
+  vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_device_)[^_]*' | sed -e s#android-legacy/android_device_##g)
+  device_name=$(echo $GERRIT_PROJECT | grep '.*android_device_[^_]*_' | sed -e s#.*android_device_[^_]*_##g | sed s#android-legacy/##g )
 
   if [[ "$GERRIT_PROJECT" == *kernel* ]]
   then
-    vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#sony-omni/android_kernel_##g)
+    vendor_name=$(echo $GERRIT_PROJECT | grep -Po '.*(?<=android_kernel_)[^_]*' | sed -e s#android-legacy/android_kernel_##g)
     device_name=msm7x27-common
   fi
 
@@ -60,7 +60,7 @@ then
     export MINI_GAPPS=true
   fi
 
-  if [[ "$GERRIT_PROJECT" == "sony-omni/android" ]]
+  if [[ "$GERRIT_PROJECT" == "android-legacy/android" ]]
   then
     export CHERRYPICK_REV=$GERRIT_PATCHSET_REVISION
   fi
@@ -70,7 +70,7 @@ then
   if [ ! -z $vendor_name ] && [ ! -z $device_name ]
   then
     # Workaround for failing translation checks in common device repositories
-    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/sony-omni-shared-repo.map)
+    LUNCH=$(echo omni_$device_name-userdebug@$vendor_name | sed -f $WORKSPACE/hudson/android-legacy-shared-repo.map)
   fi
   export LUNCH=$LUNCH
 fi
@@ -140,8 +140,8 @@ then
   export BUILD_USER_ID=$(whoami)
 fi
 
-git config --global user.name $BUILD_USER_ID@sony-omni
-git config --global user.email review@sony-omni.com
+git config --global user.name $BUILD_USER_ID@android-legacy
+git config --global user.email review@android-legacy.com
 
 JENKINS_BUILD_DIR=$REPO_BRANCH
 
@@ -177,7 +177,7 @@ rm -fr vendor/zte/
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
 rm -f .repo/local_manifest.xml
-repo init -u $SYNC_PROTO://github.com/sony-omni/android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/android-legacy/omni-android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 if [ ! -z "$CHERRYPICK_REV" ]
 then

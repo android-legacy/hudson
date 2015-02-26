@@ -50,7 +50,7 @@ else:
 
 headers = {}
 headers['Content-Type'] = 'application/json'
-headers['User-Agent'] = 'sony-omni changelog builder'
+headers['User-Agent'] = 'android-legacy changelog builder'
 headers['Accept'] = '*/*'
 headers['Content-Length'] = "%d" % (len(logrequest))
 
